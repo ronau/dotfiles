@@ -44,6 +44,9 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 set incsearch
 set hlsearch
 
+" Remap mapleader key
+let mapleader = ","
+
 " Map Ctrl+l to clear highlighted searches
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
