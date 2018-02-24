@@ -1,0 +1,11 @@
+export ZSH=~/.zsh
+
+# Load all of the config files in our zsh folder that end in .zsh
+for config_file ($ZSH/conf/*.zsh) source $config_file
+
+# Add the following to your zshrc to access the online help
+unalias run-help
+autoload run-help
+HELPDIR=/usr/local/share/zsh/helpfiles
+
+print -Pn "\e]0; %n@%m: %~\a"   # terminal title

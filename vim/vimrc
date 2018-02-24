@@ -1,0 +1,104 @@
+" Might be obsolete as compatible mode is disabled automatically when a user vimrc is found
+set nocompatible
+
+" Enable syntax highlighting
+syntax on
+filetype plugin indent on
+
+" Color and appearance
+colorscheme smyck
+
+set number          " Add line numbers
+set ruler           " Always display current cursor position in lower right corner
+set cursorline      " Highlight current line
+set showcmd         " Display incomplete command in lower right corner
+set showmode        " Display current mode (insert, replace, visual) at the bottom
+set nowrap          " No wrapping at the end of the window
+set showmatch       " Highlight matching [{()}]
+set wildmenu        " Visual autocomplete for command menu
+
+" Highlight last inserted text
+nnoremap gV `[v`]
+
+" Do smart autoindenting when starting a new line
+set smartindent
+
+" Set encoding
+set encoding=utf-8
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" Whitespace stuff, always use spaces
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+" Show trailing spaces and highlight hard tabs
+set list listchars=tab:»·,trail:·
+
+" Some file types should wrap their text
+function! s:setupWrapping()
+    set wrap
+    set linebreak
+    set textwidth=72
+    set nolist
+endfunction
+
+" Strip trailing whitespaces on each save
+function! <SID>StripTrailingWhitespaces()
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+" Search related settings
+set incsearch
+set hlsearch
+
+" Map Ctrl+l to clear highlighted searches and invoke screen redraw (https://stackoverflow.com/a/25569434)
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+
+" Remap mapleader key
+let mapleader = ","
+
+" Identify syntax highlighting group
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" Highlight characters behind the 80 chars margin
+:au BufWinEnter * let w:m2=matchadd('ColumnMargin', '\%>80v.\+', -1)
+" Alternatively you could highlight just the 81st column
+" set colorcolumn=81
+
+" Disable code folding
+set nofoldenable
+
+" Directories for swp files
+set backupdir=~/.vimbackup
+set directory=~/.vimbackup
+
+
+
+" Language and filetype specific stuff
+
+
+" Make uses real tabs
+au FileType make set noexpandtab
+
+" Add json syntax highlighting
+au BufNewFile,BufRead *.json set ft=javascript
+
+" Switch on wrapping for simple txt files
+au BufRead,BufNewFile *.txt call s:setupWrapping()
+
+" Make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
+au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
+
