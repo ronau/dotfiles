@@ -9,3 +9,12 @@ autoload run-help
 HELPDIR=/usr/local/share/zsh/helpfiles
 
 print -Pn "\e]0; %n@%m: %~\a"   # terminal title
+
+
+# Python development stuff
+
+# to make pipenv available
+export PATH=$PATH:$HOME/Library/Python/3.7/bin
+
+# make pipenv create the virtualenv in the project's directory
+export PIPENV_VENV_IN_PROJECT=1

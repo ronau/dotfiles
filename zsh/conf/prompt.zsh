@@ -33,6 +33,13 @@ PROMPT_SYMBOL='❯'
 # screen window (color: gray = light black)
 [[ -n $WINDOW ]] && SCREEN_NO="%F{008}screen%B${WINDOW}%b%f "
 
+# prevent breaking the prompt with default venv output
+# instead we will add the venv output on our own using a function
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+function virtualenv_prompt_info(){
+  [[ -n ${VIRTUAL_ENV} ]] || return
+  echo "[${VIRTUAL_ENV:t2}] "
+}
 
 #
 # PROMPT consists of 3 lines
@@ -48,4 +55,4 @@ PROMPT='${NEWLINE}'
 PROMPT+='${USERNAMEHOST}${SHELL_LEVEL}${SCREEN_NO}%F{011}%~%f${vcs_info_msg_0_}${NEWLINE}'
 
 # 3rd line: prompt symbol (defined above), will be colored red if last command exited with non-zero
-PROMPT+='%(?.${PROMPT_SYMBOL}.%B%F{red}${PROMPT_SYMBOL}%f%b)%f %{$reset_color%}'
+PROMPT+='$(virtualenv_prompt_info)%(?.${PROMPT_SYMBOL}.%B%F{red}${PROMPT_SYMBOL}%f%b)%f %{$reset_color%}'
