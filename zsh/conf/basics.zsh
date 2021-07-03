@@ -54,3 +54,4 @@ bindkey '^[v' edit-command-line     # ESC v (vi style)
 export PAGER=less
 export EDITOR=vim
 export TERM=xterm-256color          # useful to override TERM being set to "screen" by screen program (which would disable colors)
+export LC_CTYPE=en_US.UTF-8
