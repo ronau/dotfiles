@@ -9,7 +9,16 @@ zstyle ':vcs_info:*' stagedstr '+'          # display this when there are staged
 zstyle ':vcs_info:*' formats ' %F{013}[%b]%c%u%f'              # normal VCS info string (color: magenta)
 zstyle ':vcs_info:*' actionformats ' %F{013}[%b% (%a)]%c%u%f'  # VCS info string during special action (e.g. merge conflict)
 zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:%r'  # include revision number for svn and bzr
-precmd () { vcs_info }
+
+function precmd () {
+  vcs_info
+
+  print -Pn "\e]0;%n@%m: %~\a"   # terminal title: user, host, pwd
+}
+
+function preexec() {
+  print -Pn "\e]0;($1) %n@%m: %~\a"   # terminal title: (cmd), user, host, pwd
+}
 
 
 setopt prompt_subst
