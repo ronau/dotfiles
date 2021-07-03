@@ -1,3 +1,3 @@
-alias ll='ls -la'
-alias lh='ls -lah'
+alias ll='ls -lAhGF'
+#alias lh='ls -lAh'
 alias ...='cd ../..'
