@@ -37,7 +37,9 @@ PROMPT_SYMBOL='❯'
 [[ $UID -eq 0 ]] && USERNAMEHOST='%K{001}%F{015}%n@%m%f%k '
 
 # shell level if deeper than 1 (color: light red)
-[[ $SHLVL -gt 1 ]] && SHELL_LEVEL="%F{009}L%B${SHLVL}%b%f "
+# but not if parent process is tmux or login
+PARENT_PS=$(ps -o comm= -p $PPID)
+[[ $SHLVL -gt 1 ]] && [[ $PARENT_PS != "tmux" ]] && [[ $PARENT_PS != "login" ]] && SHELL_LEVEL="%F{009}L%B${SHLVL}%b%f "
 
 # screen window (color: gray = light black)
 [[ -n $WINDOW ]] && SCREEN_NO="%F{008}screen%B${WINDOW}%b%f "
