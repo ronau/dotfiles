@@ -15,6 +15,8 @@ Link the vim dir into your homedir. Vim will recognise the `vimrc` file.
 
 `~ $ ln -s dotfiles/vim .vim`
 
+`~ $ mkdir .vimbackup`
+
 
 ## ZSH
 
